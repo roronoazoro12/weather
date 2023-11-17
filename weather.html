@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather</title>
+    <link rel="stylesheet" href="style.css">
+    <link href='https://unpkg.com/css.gg@2.0.0/icons/css/search.css' rel='stylesheet'>
+</head>
+<body>
+    <div class="container">
+        <div class="search">
+            <input type="text" id="cityInput" placeholder="Enter city name">
+            <button onclick="checkWeather()">
+                <i class="gg-search"></i>
+            </button>
+        </div>
+        <div class="weather">
+            <img src="images/clear.png" class="weather-icon">
+            <h1 class="temp">temp°C</h1>
+            <h1 class="city">city name</h1>
+        </div>
+    </div>
+
+    <script>
+        const apiKey = '601c450835e83da89ff51ce9d3b1cb6a';
+        const weathericon = document.querySelector('.weather-icon');
+       async function checkWeather() {
+            const city = document.getElementById('cityInput').value;
+            const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`;
+                const response = await fetch(url);
+                const data = await response.json();
+
+                document.querySelector('.city').innerHTML = data.name;
+                document.querySelector('.temp').innerHTML = Math.round(data.main.temp) + "°C";
+
+                if(data.weather[0].main == "Clouds"){
+                    weathericon.src = "images/clouds.png";
+                }
+                else if(data.weather[0] == "Clear"){
+                    weathericon.src = "images/clear.png";
+                }
+                else if(data.weather[0] == "Mist"){
+                    weathericon.src = "images/mist.png";
+                }
+                else if(data.weather[0] == "Drizzle"){
+                    weathericon.src = "images/drizzle.png";
+                }
+                else if(data.weather[0] == "Rain"){
+                    weathericon.src = "images/rain.png";
+                } 
+                else if(data.weather[0] == "Snow"){
+                    weathericon.src = "images/snow.png";
+                }
+                
+                
+        }
+        
+    </script>
+</body>
+</html>
